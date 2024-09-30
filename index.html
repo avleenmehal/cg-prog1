@@ -1,11 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Pixel Drawing</title>
-<script type="text/javascript" src="drawstuff.js"></script>
+    <meta charset="UTF-8">
+    <title>Pixel Drawing</title>
+    <script type="text/javascript" src="drawstuff.js"></script>
 </head>
-<body onload="main();">
-<canvas id="viewport" width="512" height="512"></canvas>
+<body style="background-color: whitesmoke;">
+    <canvas id="viewport" width="512" height="512"></canvas>
+
+    <script>
+        let firstFile = 'triangles2.json';
+        let secondFile = 'pyramid.json';   
+        let currentFile = firstFile;      
+
+        // Function to load the JSON file programmatically
+        function loadFile(fileName) {
+            fetch(fileName)
+                .then(response => response.json())
+                .then(jsonData => {
+                    console.log("Loaded JSON data:", jsonData);
+                    main(jsonData); // Assuming main accepts JSON data
+                })
+                .catch(error => {
+                    console.error("Error loading file:", error);
+                });
+        }
+
+        // Function to handle spacebar press
+        function handler(event) {
+            if (event.code === 'Space') {
+                currentFile = (currentFile === firstFile) ? secondFile : firstFile;
+                loadFile(currentFile); 
+            }
+        }
+
+        window.onload = function() {
+            loadFile(firstFile);
+            
+            window.addEventListener('keydown', handler);
+        };
+    </script>
 </body>
 </html>
